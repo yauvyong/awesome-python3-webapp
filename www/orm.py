@@ -209,7 +209,7 @@ class Model(dict, metaclass=ModelMetaClass):
 		if args is None :
 			args = []
 		orderBy = kw.get('orderBy', None)
-		if OrderBy:
+		if orderBy:
 			sql.append('order by')
 			sql.append(orderBy)
 		limit = kw.get('limit', None)

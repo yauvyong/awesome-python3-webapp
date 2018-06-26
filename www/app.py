@@ -62,7 +62,7 @@ def response_factory(app, handler):
 		r = yield from handler(request)
 		if isinstance(r, web.StreamResponse):
 			return r
-		if isinstance(r, byte):
+		if isinstance(r, bytes):
 			resp = web.Response(body=r)
 			resp.content_type = 'application/octect-stream'
 			return resp
