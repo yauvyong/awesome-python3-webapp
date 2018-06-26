@@ -7,7 +7,7 @@ import logging; logging.basicConfig(level=logging.INFO)
 import asyncio, os, json, time
 from datetime import datetime
 from aiohttp import web
-from jinja2 import Enviroment,FileSystemLoader
+from jinja2 import Environment,FileSystemLoader
 
 import orm
 from coroweb import add_routes, add_static
@@ -47,7 +47,7 @@ def data_factory(app, handler):
 		if request.method == 'POST':
 			if request.content_type.startswith('application/json'):
 				request.__data = yield from request.json()
-				logging.info('request json: %s' % str(request.__data__)
+				logging.info('request json: %s' % str(request.__data__))
 			elif request.content_type.startswith('application/x-www-form-urlencoded'):
 				request.__data__ = yield from request.post()
 				logging.info('reques from %s' % str(request.__data__))
@@ -59,12 +59,12 @@ def response_factory(app, handler):
 	@asyncio.coroutine
 	def response(request):
 		logging.info('Response handler...')
-		r = yield from handler(request):
+		r = yield from handler(request)
 		if isinstance(r, web.StreamResponse):
 			return r
 		if isinstance(r, byte):
 			resp = web.Response(body=r)
-			resp.content_type = 'application/octect-stream')
+			resp.content_type = 'application/octect-stream'
 			return resp
 		if isinstance(r, str):
 			if r.startswith('redirect:'):
@@ -83,7 +83,7 @@ def response_factory(app, handler):
 				resp.content_type = 'text/html;charset=utf-8'
 				return resp
 		if isinstance(r, int) and r>=100 and r<=600:
-			return.response(r)
+			return response(r)
 		if isinstance(r, tuple) and len(r) ==2:
 			t,m = r
 			if isinstance(t, int) and t>=100 and t<=600:

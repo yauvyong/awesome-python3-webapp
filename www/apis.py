@@ -9,7 +9,7 @@ Define JSON API
 
 import json, logging, inspect, functools
 
-class APIError(Execption):
+class APIError(Exception):
 	
 	def __init__(self, error, data='', message=''):
 		super(APIError,self).__init__(message)
@@ -26,5 +26,5 @@ class APIResourceNotFoundError(APIError):
 		super(APIResourceNotFoundError,self).__init__('value:notfound', field, message)
 	
 class APIPermissionError(APIError):
-	def __init__(self, message='')
+	def __init__(self, message=''):
 		super(APIPermissionError,self).__init__('permisssion:forbidden', field, message)
