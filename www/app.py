@@ -33,7 +33,7 @@ def init_jinja2(app, **kw):
 	app['__templating__'] = env
 	
 @asyncio.coroutine
-def logger_factory(app.handler):
+def logger_factory(app,handler):
 	@asyncio.coroutine
 	def logger(request):
 		logging.info('Request: %s %s' %(request.method, request.path))
