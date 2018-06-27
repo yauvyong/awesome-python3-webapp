@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	{% block meta %}<!-- block meta-->{& endblock %}
+	{% block meta %}<!-- block meta-->{% endblock %}
 	<link rel="stylesheet" href="/static/css/uikit.min.css">
 	<link rel="stylesheet" href="/static/css/uikit.gradient.css">
 	<!-- <link rel="stylesheet" href="/static/css/uikit.awesome.css">
@@ -10,7 +10,7 @@
 	<script src="/static/js/awesome.min.js"></script> -->
 	<script src="/static/js/jquery.min.js"></script>
 	<script src="/static/js/uikit.min.js"></script>
-	{% block beforehead %}<!-- block before head-->{& endblock %}
+	{% block beforehead %}<!-- block before head-->{% endblock %}
 </head>
 
 <body>
@@ -45,6 +45,7 @@
 	<div class="uk-container uk-container-center">
 		<div class="uk-grid">
 			{% block content %}
+			
 			{% endblock %}
 		</div>
 	</div>
