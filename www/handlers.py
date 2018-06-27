@@ -35,7 +35,7 @@ def signin(request):
 		
 @get('/register')
 @asyncio.coroutine		
-def signin(request):
+def register(request):
 	return {
 		'__template__': 'register.html'
 		}
