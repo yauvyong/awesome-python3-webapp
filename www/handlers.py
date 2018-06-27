@@ -32,6 +32,14 @@ def signin(request):
 	return {
 		'__template__': 'signin.html'
 		}
+		
+@get('/register')
+@asyncio.coroutine		
+def signin(request):
+	return {
+		'__template__': 'register.html'
+		}
+		
 @get('/api/users')
 @asyncio.coroutine
 def api_get_user(*, Page=1):
