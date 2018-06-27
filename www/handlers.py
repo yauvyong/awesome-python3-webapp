@@ -26,3 +26,11 @@ def index(request):
 		'blogs': blogs
 		}
 		
+@get('/api/user')
+@asyncio.coroutine
+def api_get_user(*, Page=1):
+	users = yield from User.findAll(orderBy='created_at desc'))
+	for u in users:
+		u.passwd = '******'
+	return dict(users=users)
+	
