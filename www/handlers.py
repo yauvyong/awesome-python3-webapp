@@ -26,7 +26,7 @@ def index(request):
 		'blogs': blogs
 		}
 
-@get('/')
+@get('/signin')
 @asyncio.coroutine		
 def signin(request):
 	return {
