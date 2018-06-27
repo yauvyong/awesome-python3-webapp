@@ -53,7 +53,8 @@
 {% endblock %}
 
 {% block content %}
-	<div class="uk-width-2-3 uk-position-center">
+	<div class="uk-vertical-align uk-text-center uk-height-1-1">
+        <div class="uk-vertical-align-middle" style="width: 320px">
 		<h1>User Registration</h1>
 		<form id ='vm' v-on="submit:submit" class="uk-form uk-form-stacked">
 			<div class="uk-alert uk-alert-danger uk-hidden"></div>
@@ -85,5 +86,6 @@
 				<button type="submit" class="uk-button uk-button-primary"><i class="uk-icon-user"></i>Register</button>
 			</div>
 		</form>
+	</div>
 	</div>
 {% endblock %}
