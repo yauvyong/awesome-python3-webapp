@@ -25,7 +25,13 @@ def index(request):
 		'__template__': 'blogs.html',
 		'blogs': blogs
 		}
-		
+
+@get('/')
+@asyncio.coroutine		
+def signin(request):
+	return {
+		'__template__': 'signin.html'
+		}
 @get('/api/users')
 @asyncio.coroutine
 def api_get_user(*, Page=1):
