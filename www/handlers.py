@@ -22,7 +22,7 @@ def index(request):
 		]
 	
 	return {
-		'__template__': 'blogs2.html',
+		'__template__': 'blogs.html',
 		'blogs': blogs
 		}
 
