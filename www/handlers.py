@@ -26,6 +26,12 @@ def index(request):
 		'blogs': blogs
 		}
 
+		
+@get('/test')
+@asyncio.coroutine
+def test(request):
+	return {'__template__': 'blogs.html'}
+		
 @get('/signin')
 @asyncio.coroutine		
 def signin(request):
