@@ -30,7 +30,7 @@ def index(request):
 @get('/test')
 @asyncio.coroutine
 def test(request):
-	return {'__template__': 'blogs.html'}
+	return {'__template__': '__base__.html'}
 		
 @get('/signin')
 @asyncio.coroutine		
