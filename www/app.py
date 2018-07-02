@@ -94,6 +94,21 @@ def response_factory(app, handler):
 		return resp
 	return response
 
+@asyncio.coroutine
+def auth_factory(app,handler):
+	@asynccio.coroutine
+	def auth(request):
+		logging.info('check user: %s %s' %(request.method, request.path))
+		request.__user__ = None
+		cookie_str = request.cookies.get(COOKIE_NAME)
+		if cookie_str:
+			user = yield from cookie2user(cookie_str)
+			if user:
+				logging.info('set current user: %s' % user.email)
+				request.__user__=user
+		return (yield from handler(request))
+	return auth
+
 def datetime_filter(t):
 	delta = int(time.time() - t)
 	if delta < 60:
@@ -110,7 +125,7 @@ def datetime_filter(t):
 @asyncio.coroutine
 def init(loop):
 	yield from orm.create_pool(loop=loop, user='www-data',password='www-data', database='awesome')
-	app = web.Application(loop=loop,middlewares=[logger_factory,response_factory])
+	app = web.Application(loop=loop,middlewares=[logger_factory,response_factory,auth_factory])
 	init_jinja2(app, filters=dict(datetime=datetime_filter))
 	add_routes(app, 'handlers')
 	add_static(app)
