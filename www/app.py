@@ -11,6 +11,7 @@ from jinja2 import Environment,FileSystemLoader
 
 import orm
 from coroweb import add_routes, add_static
+from handlers import cookie2user, COOKIE_NAME
 
 def init_jinja2(app, **kw):
 	logging.info('init jinja2...')
@@ -79,6 +80,7 @@ def response_factory(app, handler):
 				resp.content_type = 'application/json;charset=utf-8'
 				return resp
 			else:
+				r['__user__'] = request.__user__
 				resp = web.Response(body=app['__templating__'].get_template(template).render(**r).encode('utf-8'))
 				resp.content_type = 'text/html;charset=utf-8'
 				return resp
@@ -96,7 +98,7 @@ def response_factory(app, handler):
 
 @asyncio.coroutine
 def auth_factory(app,handler):
-	@asynccio.coroutine
+	@asyncio.coroutine
 	def auth(request):
 		logging.info('check user: %s %s' %(request.method, request.path))
 		request.__user__ = None

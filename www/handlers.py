@@ -7,12 +7,15 @@ __author__ = 'Adrian Yong'
 
 import re, time, json, logging, hashlib,base64, asyncio
 
+from aiohttp import web
+from apis import APIValueError, APIResourceNotFoundError,APIError
+
 from coroweb import get, post
 from models import User, Comment, Blog, next_id
 from config import configs
 
-OOKIE_NAME = 'awesession'
-_COOKIE_KEY = config.session.secret
+COOKIE_NAME = 'awesession'
+_COOKIE_KEY = configs.session.secret
 
 _RE_EMAIL = re.compile(r'^[a-z0-9\.\-\_]+\@[a-z0-9\-\_]+(\.[[a-z0-9\-\_]+){1,4}$')
 _RE_SHA1 = re.compile(r'^[0-9a-f]{40}$')
@@ -26,13 +29,13 @@ def user2cookies(user, max_age):
 
 @asyncio.coroutine
 def cookie2user(cookie_str):
-	if not cooki_str:
+	if not cookie_str:
 		return None
 	try:
 		L = cookie_str.split('-')
 		if len(L) !=3:
 			return None
-		uid, espires, sha1 =L
+		uid, expires, sha1 = L
 		if int(expires)< time.time():
 			return None
 		user = yield from User.find(uid)
@@ -43,7 +46,7 @@ def cookie2user(cookie_str):
 			return None
 		user.passwd = '******'
 		return user
-	except Execption as e:
+	except Exception as e:
 		logging.exception(e)
 		return None
 
@@ -60,7 +63,8 @@ def index(request):
 	
 	return {
 		'__template__': 'blogs.html',
-		'blogs': blogs
+		'blogs': blogs,
+		'user': request.__user__
 		}
 
 @post('/api/users')
@@ -80,7 +84,7 @@ def api_register_user(*,email,name,passwd):
 	yield from user.save()
 	
 	r = web.Response()
-	r.set_cookie(COOKIE_NAME, user2cokies(user,86400),max_age=86400,httponly=True)
+	r.set_cookie(COOKIE_NAME, user2cookies(user,86400),max_age=86400,httponly=True)
 	user.passwd='******'
 	r.content_type = 'application/json'
 	r.body = json.dumps(user, ensure_ascii=False).encode('utf-8')
@@ -105,7 +109,7 @@ def authnticate(*, email, passwd):
 	if not email:
 		raise APIValueError('email', 'Invalid email.')
 	if not passwd:
-		rasie APIValueError('passwd', ' Invalid password.')
+		raise APIValueError('passwd', ' Invalid password.')
 	users = yield from User.findAll('email=?',[email])
 	if len(users) ==0:
 		raise ApiValueError('email','Email not exits')

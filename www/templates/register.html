@@ -34,7 +34,7 @@
 							return $form.showFormError('Password different');
 						}
 						var email = this.email.trim().toLowerCase();
-						$form.postJson('/api/users', {
+						$form.postJSON('/api/users', {
 							name: this.name.trim(),
 							email: email,
 							passwd: CryptoJS.SHA1(email + ':' + this.password1).toString()

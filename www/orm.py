@@ -41,7 +41,7 @@ def select(sql, args,size=None):
 		cur = yield from conn.cursor(aiomysql.DictCursor)
 		yield from cur.execute(sql.replace('?','%s'),args or ())
 		if size:
-			rs = yield from cur.fetchmanay(size)
+			rs = yield from cur.fetchmany(size)
 		else:
 			rs = yield from cur.fetchall()
 		yield from cur.close()
@@ -171,7 +171,7 @@ class Model(dict, metaclass=ModelMetaClass):
 	@asyncio.coroutine
 	def find(cls,pk):
 		#find object via primary key
-		rs = yield from select('%s where `%s`=?' % (cls.__select__, cls.__primary_key__,)[pk],1)
+		rs = yield from select('%s where `%s`=?' % (cls.__select__, cls.__primary_key__),[pk],1)
 		if len(rs) == 0:
 			return None
 		return cls(**rs[0])
