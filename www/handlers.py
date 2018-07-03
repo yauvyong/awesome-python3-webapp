@@ -79,7 +79,7 @@ def api_register_user(*,email,name,passwd):
 	if len(users)>0:
 		raise APIError('register: failed', 'email', 'Email is laready in use.')
 	uid = next_id()
-	sha1_passwd = '%s%s' % (uid, passwd)
+	sha1_passwd = '%s:%s' % (uid, passwd)
 	user = User(id=uid, name=name.strip(),email=email,passwd=hashlib.sha1(sha1_passwd.encode('utf-8')).hexdigest(), image='image:none')
 	yield from user.save()
 	
