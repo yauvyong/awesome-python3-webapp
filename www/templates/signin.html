@@ -23,14 +23,14 @@ $(function() {
         methods: {
             submit: function(event) {
                 event.preventDefault();
-                var $form = $('#vm'),
+                var
+                    $form = $('#vm'),
                     email = this.email.trim().toLowerCase(),
                     data = {
                         email: email,
-                        passwd: this.passwd===' ? ' : CryptoJS.SHA1(email + ':' + this.passwd).toString()
+                        passwd: this.passwd==='' ? '' : CryptoJS.SHA1(email + ':' + this.passwd).toString()
                     };
                 $form.postJSON('/api/authenticate', data, function(err, result) {
-					return form.showFormError('eeeeee');
                     if (! err) {
                         location.assign('/');
                     }

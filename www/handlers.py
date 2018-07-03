@@ -68,6 +68,7 @@ def index(request):
 		}
 
 @post('/api/users')
+@asyncio.coroutine	
 def api_register_user(*,email,name,passwd):
 	if not name or not name.strip():
 		raise APIValueError('name')
@@ -113,6 +114,7 @@ def register(request):
 		}
 
 @post('/api/authenticate')
+@asyncio.coroutine	
 def authenticate(*, email, passwd):
 	if not email:
 		raise APIValueError('email', 'Invalid email.')
