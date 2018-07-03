@@ -89,7 +89,15 @@ def api_register_user(*,email,name,passwd):
 	r.content_type = 'application/json'
 	r.body = json.dumps(user, ensure_ascii=False).encode('utf-8')
 	return r
-		
+	
+@get('/signout')
+def signout(request):
+	referer = request.headers.get('Referer')
+	r = web.HTTPFounf(referer or '/')
+	r.set_cookie(COOKIE_NAME,'-deleted-',max_age=0, httponly=True)
+	logging.info('user signed out')
+	return r
+	
 @get('/signin')
 @asyncio.coroutine		
 def signin(request):
