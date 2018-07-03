@@ -105,7 +105,7 @@ def register(request):
 		}
 
 @post('/api/authenticate')
-def authnticate(*, email, passwd):
+def authenticate(*, email, passwd):
 	if not email:
 		raise APIValueError('email', 'Invalid email.')
 	if not passwd:
@@ -122,9 +122,9 @@ def authnticate(*, email, passwd):
 	if user.passwd != sha1.hexdigest():
 		raise APIValueError('passwd', 'Invalid password')
 		
-		r = web.Response()
-		r.set_cookie(COOKIE_NAME, user2cookie(user,86400),max_age=86400,httponly=True)
-		user.passwd = '******'
-		r.content_type = 'application/json'
-		r.body = json.dumps(user,ensure_ascii=False).encode('utf-8')
-		return r
+	r = web.Response()
+	r.set_cookie(COOKIE_NAME, user2cookie(user,86400),max_age=86400,httponly=True)
+	user.passwd = '******'
+	r.content_type = 'application/json'
+	r.body = json.dumps(user,ensure_ascii=False).encode('utf-8')
+	return r
