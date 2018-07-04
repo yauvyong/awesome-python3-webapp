@@ -127,7 +127,7 @@ def datetime_filter(t):
 @asyncio.coroutine
 def init(loop):
 	yield from orm.create_pool(loop=loop, user='www-data',password='www-data', database='awesome')
-	app = web.Application(loop=loop,middlewares=[logger_factory,response_factory,auth_factory])
+	app = web.Application(loop=loop,middlewares=[logger_factory,auth_factory,response_factory])
 	init_jinja2(app, filters=dict(datetime=datetime_filter))
 	add_routes(app, 'handlers')
 	add_static(app)
