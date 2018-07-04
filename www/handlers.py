@@ -133,7 +133,7 @@ def authenticate(*, email, passwd):
 		raise APIValueError('passwd', 'Invalid password')
 		
 	r = web.Response()
-	r.set_cookie(COOKIE_NAME, user2cookie(user,86400),max_age=86400,httponly=True)
+	r.set_cookie(COOKIE_NAME, user2cookies(user,86400),max_age=86400,httponly=True)
 	user.passwd = '******'
 	r.content_type = 'application/json'
 	r.body = json.dumps(user,ensure_ascii=False).encode('utf-8')
