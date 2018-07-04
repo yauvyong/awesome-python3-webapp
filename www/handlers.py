@@ -122,7 +122,7 @@ def authenticate(*, email, passwd):
 		raise APIValueError('passwd', ' Invalid password.')
 	users = yield from User.findAll('email=?',[email])
 	if len(users) ==0:
-		raise ApiValueError('email','Email not exits')
+		raise APIValueError('email','Email not exits')
 	user =users[0]
 	
 	sha1 = hashlib.sha1()
