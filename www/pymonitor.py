@@ -62,6 +62,6 @@ if __name__ == '__main__':
 		exit(0)
 	if argv[0] != 'python3':
 		argv.insert(0,'python3')
-	commaf = argv
+	command = argv
 	path = os.path.abspath('.')
 	start_watch(path,None)
