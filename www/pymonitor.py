@@ -17,7 +17,7 @@ class MyFileSystemEventHandler(FileSystemEventHandler):
 		self.restart = fn
 		
 	def on_my_event(self, event):
-		if event.src_path.endswith('.py.'):
+		if event.src_path.endswith('.py'):
 			log('Python source file changed %s' % event.src_path)
 			self.restart
 
