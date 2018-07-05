@@ -5,7 +5,7 @@ __author__ = 'Adrian Yong'
 
 import os, sys, subprocess, time
 
-frpm watchdog.observers import Observer
+from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 def log(s):
@@ -36,7 +36,7 @@ def kill_process():
 def start_process():
 	global process, command
 	log('Start process %s...' % ' '.join(command))
-	process = subprocess.Popen(command, stdin=sys.stdin, stout=sys.stout,stderr=sys.stderr)
+	process = subprocess.Popen(command, stdin=sys.stdin, stdout=sys.stdout,stderr=sys.stderr)
 
 def restart_process():
 	kil_process()
@@ -55,7 +55,7 @@ def start_watch(path,callback):
 		observer.stop()
 	observer.join()
 
-if __name__ == '__mai__'
+if __name__ == '__main__':
 	argv = sys.argv[1:]
 	if not argv:
 		print('Usage: ./pymonitor your-script.py')
