@@ -16,7 +16,7 @@ class MyFileSystemEventHandler(FileSystemEventHandler):
 		super(MyFileSystemEventHandler,self).__init__()
 		self.restart = fn
 		
-	def on_my_event(self, event):
+	def on_any_event(self, event):
 		if event.src_path.endswith('.py'):
 			log('Python source file changed %s' % event.src_path)
 			self.restart
@@ -39,7 +39,7 @@ def start_process():
 	process = subprocess.Popen(command, stdin=sys.stdin, stdout=sys.stdout,stderr=sys.stderr)
 
 def restart_process():
-	kil_process()
+	kill_process()
 	start_process()
 	
 def start_watch(path,callback):
