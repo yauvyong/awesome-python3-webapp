@@ -19,7 +19,7 @@ class MyFileSystemEventHandler(FileSystemEventHandler):
 	def on_any_event(self, event):
 		if event.src_path.endswith('.py'):
 			log('Python source file changed %s' % event.src_path)
-			self.restart
+			self.restart()
 
 command = ['echo', 'ok']
 process = None
