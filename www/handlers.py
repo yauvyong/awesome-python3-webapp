@@ -97,11 +97,12 @@ def register(request):
 def manage_create_blog():
 	return {
 		'__template__': 'manage_blog_edit.html',
-		'id': ='',
-		'action': '/api/blogs'
+		'id': '',
+		'action': '/api/blogs',
+		'user': request.__user__
 	}
 	
-@get('api/blogs/{id}')
+@get('/api/blogs/{id}')
 def api_get_blog(*,id):
 	blog = yield from Blog.find(id)
 	return blog
