@@ -27,4 +27,4 @@ class APIResourceNotFoundError(APIError):
 	
 class APIPermissionError(APIError):
 	def __init__(self, message=''):
-		super(APIPermissionError,self).__init__('permisssion:forbidden', field, message)
+		super(APIPermissionError,self).__init__('permisssion:forbidden', 'permission', message)
