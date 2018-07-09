@@ -180,7 +180,7 @@ def api_create_blog(request, *, name, summary, content):
 	yield from blog.save()
 	return blog
 
-@post('/api/blogs/{id}')
+@post('/api/blogs/{rid}')
 @asyncio.coroutine
 def api_edit_blog(rid,request, *, name, summary, content):
 	check_admin(request)
