@@ -96,7 +96,7 @@ def register(request):
 @get('/manage/blogs/create')
 def manage_create_blog(request):
 	return {
-		'__template__': 'test.html',
+		'__template__': 'manage_blog_edit.html',
 		'id': '',
 		'action': '/api/blogs',
 		'user': request.__user__
