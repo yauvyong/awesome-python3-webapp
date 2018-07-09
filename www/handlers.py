@@ -103,7 +103,7 @@ def manage_create_blog(request):
 	}
 
 @get('/manage/blogs/edit/{{id}}')
-def manage_create_blog(request,id):
+def manage_create_blog(id,request):
 	return {
 		'__template__': 'test.html',
 		'id': id,
