@@ -190,6 +190,9 @@ def api_edit_blog(rid,request, *, name, summary, content):
 		raise APIValueError('summary', 'summary cannot be empty')
 	if not content or not content.strip():
 		raise APIValueError('content', 'content cannot be empty')
-	blog = Blog(id=rid, user_id=request.__user__.id, user_name=request.__user__.name, user_image = request.__user__.image, name=name.strip(), summary=summary.strip(),content=content.strip())
+	blog = yield from Blog.find(rid)
+	blog.name = name.strip()
+	blog.summary = summary.strip()
+	blog.content = content.strip()
 	yield from blog.update()
 	return blog	
