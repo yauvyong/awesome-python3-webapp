@@ -189,7 +189,7 @@ class Model(dict, metaclass=ModelMetaClass):
 		args = list(map(self.getValue, self.__fields__))
 		args.append(self.getValue(self.__primary_key__))
 		rows = yield from execute(self.__update__, args)
-		if row !=1:
+		if rows !=1:
 			logging.warn('failed to update record: affected row: %s' % rows)
 		
 	@asyncio.coroutine
