@@ -101,7 +101,16 @@ def manage_create_blog(request):
 		'action': '/api/blogs',
 		'user': request.__user__
 	}
-	
+
+@get('/manage/blogs/edit/{{id}}')
+def manage_create_blog(request,id):
+	return {
+		'__template__': 'test.html',
+		'id': id,
+		'action': '/api/blogs',
+		'user': request.__user__
+	}
+
 @get('/api/blogs/{id}')
 def api_get_blog(*,id):
 	blog = yield from Blog.find(id)
