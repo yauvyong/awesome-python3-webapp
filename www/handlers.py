@@ -107,7 +107,7 @@ def manage_edit_blog(*,id,request):
 	return {
 		'__template__': 'test.html',
 		'id': id,
-		'action': '/api/blogs'+id,
+		'action': '/api/blogs/'+id,
 		'user': request.__user__
 	}
 
