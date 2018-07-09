@@ -105,7 +105,7 @@ def manage_create_blog(request):
 @get('/manage/blogs/edit/{id}')
 def manage_edit_blog(*,id,request):
 	return {
-		'__template__': 'test.html',
+		'__template__': 'manage_blog_edit.html',
 		'id': id,
 		'action': '/api/blogs/'+id,
 		'user': request.__user__
