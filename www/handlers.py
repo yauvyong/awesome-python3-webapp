@@ -107,7 +107,7 @@ def manage_edit_blog(*,id,request):
 	return {
 		'__template__': 'test.html',
 		'id': id,
-		'action': '/api/blogs',
+		'action': '/api/blogs'+id,
 		'user': request.__user__
 	}
 
@@ -179,4 +179,17 @@ def api_create_blog(request, *, name, summary, content):
 	blog = Blog(user_id=request.__user__.id, user_name=request.__user__.name, user_image = request.__user__.image, name=name.strip(), summary=summary.strip(),content=content.strip())
 	yield from blog.save()
 	return blog
-	
+
+@post('/api/blogs/{id}')
+@asyncio.coroutine
+def api_edit_blog(rid,request, *, name, summary, content):
+	check_admin(request)
+	if not name or not name.strip():
+		raise APIValueError('name', 'name cannot be empty')
+	if not summary or not summary.strip():
+		raise APIValueError('summary', 'summary cannot be empty')
+	if not content or not content.strip():
+		raise APIValueError('content', 'content cannot be empty')
+	blog = Blog(id=rid, user_id=request.__user__.id, user_name=request.__user__.name, user_image = request.__user__.image, name=name.strip(), summary=summary.strip(),content=content.strip())
+	yield from blog.update()
+	return blog	
