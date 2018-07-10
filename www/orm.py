@@ -233,7 +233,7 @@ class Model(dict, metaclass=ModelMetaClass):
 		if where:
 			sql.append('where')
 			sql.append(where)
-		rs = yield from execute(' '.join(sql),args,1)
+		rs = yield from select(' '.join(sql),args,1)
 		if len(rs) == 0:
 			return None
 		return rs[0]['_num_']
