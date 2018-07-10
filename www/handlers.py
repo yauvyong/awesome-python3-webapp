@@ -6,6 +6,7 @@ __author__ = 'Adrian Yong'
 'url handlers'
 
 import re, time, json, logging, hashlib,base64, asyncio
+import markdown2
 
 from aiohttp import web
 from apis import APIValueError, APIResourceNotFoundError,APIError,APIPermissionError,Page
