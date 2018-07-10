@@ -151,10 +151,11 @@ def api_get_blog(*,id):
 		
 	
 @get('/manage/blogs')
-def manage_blogs(*,page='1'):
+def manage_blogs(*,page='1',request):
 	return {
-		'__template__': 'test.html',
-		'page_index': get_page_index(page)
+		'__template__': 'manage_blog.html',
+		'page_index': get_page_index(page),
+		'user': request.__user__
 	}
 	
 @post('/api/users')
