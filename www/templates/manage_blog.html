@@ -13,7 +13,7 @@
 			},
 			methods: {
 				edit_blog: function(blog){
-					location.assign('/manage/blogs/edit'+blog.id);
+					location.assign('/manage/blogs/edit/'+blog.id);
 				},
 				delete_blog: function(blog){
 					if (confirm('Confirm delete "' + blog.name + '"? Not recoverable after delete')){
