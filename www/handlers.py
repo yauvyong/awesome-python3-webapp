@@ -141,7 +141,7 @@ def api_blogs(*, page='1'):
 	p = Page(num,page_index)
 	if num == 0:
 		return dict(page=p,blogs=())
-	blogs = yield from Blog.findAll(orderBy='created_at desc', limit=(p.offset,p.limit)
+	blogs = yield from Blog.findAll(orderBy='created_at desc', limit=(p.offset,p.limit))
 	return dict(page=p, blogs=blogs)
 	
 @get('/api/blogs/{id}')
