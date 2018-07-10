@@ -153,7 +153,7 @@ def api_get_blog(*,id):
 @get('/manage/blogs')
 def manage_blogs(*,page='1'):
 	return {
-		'__template__': 'manage_blog.html',
+		'__template__': 'test.html',
 		'page_index': get_page_index(page)
 	}
 	

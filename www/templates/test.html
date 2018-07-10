@@ -1,52 +1,45 @@
 {% extends '__base__.html' %}
 
-{% block title %}编辑日志{% endblock %}
+{% block title %}日志{% endblock %}
 
 {% block beforehead %}
 
 <script>
-var
-    ID = '{{ id }}',
-    action = '{{ action }}';
-function initVM(blog) {
+function initVM(data) {
     var vm = new Vue({
         el: '#vm',
-        data: blog,
+        data: {
+            blogs: data.blogs,
+            page: data.page
+        },
         methods: {
-            submit: function (event) {
-                event.preventDefault();
-                var $form = $('#vm').find('form');
-                $form.postJSON(action, this.$data, function (err, r) {
-                    if (err) {
-                        $form.showFormError(err);
-                    }
-                    else {
-                        return location.assign('/api/blogs/' + r.id);
-                    }
-                });
+            edit_blog: function (blog) {
+                location.assign('/manage/blogs/edit?id=' + blog.id);
+            },
+            delete_blog: function (blog) {
+                if (confirm('确认要删除“' + blog.name + '”？删除后不可恢复！')) {
+                    postJSON('/api/blogs/' + blog.id + '/delete', function (err, r) {
+                        if (err) {
+                            return alert(err.message || err.error || err);
+                        }
+                        refresh();
+                    });
+                }
             }
         }
     });
     $('#vm').show();
 }
-$(function () {
-    if (ID) {
-        getJSON('/api/blogs/' + ID, function (err, blog) {
-            if (err) {
-                return fatal(err);
-            }
-            $('#loading').hide();
-            initVM(blog);
-        });
-    }
-    else {
+$(function() {
+    getJSON('/api/blogs', {
+        page: {{ page_index }}
+    }, function (err, results) {
+        if (err) {
+            return fatal(err);
+        }
         $('#loading').hide();
-        initVM({
-            name: '',
-            summary: '',
-            content: ''
-        });
-    }
+        initVM(results);
+    });
 });
 </script>
 
@@ -58,7 +51,7 @@ $(function () {
         <div class="uk-panel uk-panel-box">
             <ul class="uk-breadcrumb">
                 <li><a href="/manage/comments">评论</a></li>
-                <li><a href="/manage/blogs">日志</a></li>
+                <li class="uk-active"><span>日志</span></li>
                 <li><a href="/manage/users">用户</a></li>
             </ul>
         </div>
@@ -71,32 +64,38 @@ $(function () {
         <span><i class="uk-icon-spinner uk-icon-medium uk-icon-spin"></i> 正在加载...</span>
     </div>
 
-    <div id="vm" class="uk-width-2-3">
-        <form v-on="submit: submit" class="uk-form uk-form-stacked">
-            <div class="uk-alert uk-alert-danger uk-hidden"></div>
-            <div class="uk-form-row">
-                <label class="uk-form-label">标题:</label>
-                <div class="uk-form-controls">
-                    <input v-model="name" name="name" type="text" placeholder="标题" class="uk-width-1-1">
-                </div>
-            </div>
-            <div class="uk-form-row">
-                <label class="uk-form-label">摘要:</label>
-                <div class="uk-form-controls">
-                    <textarea v-model="summary" rows="4" name="summary" placeholder="摘要" class="uk-width-1-1" style="resize:none;"></textarea>
-                </div>
-            </div>
-            <div class="uk-form-row">
-                <label class="uk-form-label">内容:</label>
-                <div class="uk-form-controls">
-                    <textarea v-model="content" rows="16" name="content" placeholder="内容" class="uk-width-1-1" style="resize:none;"></textarea>
-                </div>
-            </div>
-            <div class="uk-form-row">
-                <button type="submit" class="uk-button uk-button-primary"><i class="uk-icon-save"></i> 保存</button>
-                <a href="/manage/blogs" class="uk-button"><i class="uk-icon-times"></i> 取消</a>
-            </div>
-        </form>
+    <div id="vm" class="uk-width-1-1">
+        <a href="/manage/blogs/create" class="uk-button uk-button-primary"><i class="uk-icon-plus"></i> 新日志</a>
+
+        <table class="uk-table uk-table-hover">
+            <thead>
+                <tr>
+                    <th class="uk-width-5-10">标题 / 摘要</th>
+                    <th class="uk-width-2-10">作者</th>
+                    <th class="uk-width-2-10">创建时间</th>
+                    <th class="uk-width-1-10">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-repeat="blog: blogs" >
+                    <td>
+                        <a target="_blank" v-attr="href: '/blog/'+blog.id" v-text="blog.name"></a>
+                    </td>
+                    <td>
+                        <a target="_blank" v-attr="href: '/user/'+blog.user_id" v-text="blog.user_name"></a>
+                    </td>
+                    <td>
+                        <span v-text="blog.created_at.toDateTime()"></span>
+                    </td>
+                    <td>
+                        <a href="#0" v-on="click: edit_blog(blog)"><i class="uk-icon-edit"></i>
+                        <a href="#0" v-on="click: delete_blog(blog)"><i class="uk-icon-trash-o"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div v-component="pagination" v-with="page"></div>
     </div>
 
 {% endblock %}
