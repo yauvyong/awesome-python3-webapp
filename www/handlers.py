@@ -150,10 +150,10 @@ def api_get_blog(*,id):
 	return blog
 		
 	
-@get('/manage/blogs/')
+@get('/manage/blogs')
 def manage_blogs(*,page='1'):
 	return {
-		'templates': 'manage_blog.html'
+		'__template__': 'manage_blog.html',
 		'page_index': get_page_index(page)
 	}
 	
