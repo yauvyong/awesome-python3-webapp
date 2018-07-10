@@ -23,7 +23,17 @@ _RE_SHA1 = re.compile(r'^[0-9a-f]{40}$')
 def check_admin(request):
 	if request.__user__ is None or not request.__user__.admin:
 		raise APIPermissionError()
-		
+
+def get_page_index(page_str):
+	p=1
+	try:
+		p = int(page_str)
+	except ValueError as e:
+		pass
+	if p<1:
+		p=1
+	return p
+
 def user2cookies(user, max_age):
 	#build string by : id-expires-sha1
 	expires = str(int(time.time() + max_age))
@@ -93,6 +103,19 @@ def register(request):
 		'__template__': 'register.html'
 		}
 
+@get('/blog/{id}')
+def get_blog(id):
+	blog = yield from Blog.find(id)
+	comments = yield from Comment.findAll('blog_id=?',[id],orderBy='created_at desc')
+	for c in comments:
+		c.html_content = text2html(c.content)
+	blog.html_content = markdown2.markdown(blog.content)
+	return{
+		'__template__': 'blog.html',
+		'blog': blog,
+		'comments': comments
+	}
+	
 @get('/manage/blogs/create')
 def manage_create_blog(request):
 	return {
@@ -111,11 +134,29 @@ def manage_edit_blog(*,id,request):
 		'user': request.__user__
 	}
 
+@get('/api/blogs')
+def api_blogs(*, page='1'):
+	page_index = get_page_index(page)
+	num = yield from Blog.findNumber('count(id)')
+	p = Page(num,page_index)
+	if num == 0:
+		return dict(page=p,blogs=())
+	blogs = yield from Blog.findAll(orderBy='created_at desc', limit=(p.offset,p.limit)
+	return dict(page=p, blogs=blogs)
+	
 @get('/api/blogs/{id}')
 def api_get_blog(*,id):
 	blog = yield from Blog.find(id)
 	return blog
 		
+	
+@get('/manage/blogs/')
+def manage_blogs(*,page='1'):
+	return {
+		'templates': 'manage_blog.html'
+		'page_index': get_page_index(page)
+	}
+	
 @post('/api/users')
 @asyncio.coroutine	
 def api_register_user(*,email,name,passwd):
