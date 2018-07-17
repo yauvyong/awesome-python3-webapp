@@ -123,7 +123,7 @@ def datetime_filter(t):
 		return u'%s hours before' % (delta //3600)
 	if delta < 604800:
 		return u'%s days before' % (delta //86400)
-	dt = datetime.fromtimestamps(t)
+	dt = datetime.fromtimestamp(t)
 	return u'year %s month %s day %s' % (dt.year, dt.month, dt.day)
 
 @asyncio.coroutine
