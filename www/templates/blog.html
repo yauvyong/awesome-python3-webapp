@@ -39,6 +39,7 @@
 		<hr class="uk-article-divider">
 		<h3>Latest comment.</h3>
 		<ul class="uk-comment-list">
+			{% for comment in comments %}
 			<li>
                 <article class="uk-comment">
                     <header class="uk-comment-header">
@@ -52,7 +53,7 @@
                 </article>
             </li>
 			{% else %}
-            <p>No comment yet...</p>
+            <p>还没有人评论...</p>
             {% endfor %}
 		</ul>
 	</div>
