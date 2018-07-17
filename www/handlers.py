@@ -114,7 +114,7 @@ def get_blog(id, request):
 	return{
 		'__template__': 'blog.html',
 		'blog': blog,
-		'comments': comments
+		'comments': comments,
 		'user': request.__user__
 	}
 	
