@@ -105,7 +105,7 @@ def register(request):
 		}
 
 @get('/blog/{id}')
-def get_blog(id):
+def get_blog(id, request):
 	blog = yield from Blog.find(id)
 	comments = yield from Comment.findAll('blog_id=?',[id],orderBy='created_at desc')
 	for c in comments:
@@ -115,6 +115,7 @@ def get_blog(id):
 		'__template__': 'blog.html',
 		'blog': blog,
 		'comments': comments
+		'user': request.__user__
 	}
 	
 @get('/manage/blogs/create')
