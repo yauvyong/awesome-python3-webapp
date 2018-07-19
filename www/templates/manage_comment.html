@@ -1,6 +1,6 @@
 ﻿{% extends '__base__.html' %}
 
-{% block title %}Manage User{% endblock %}
+{% block title %}Manage Comment{% endblock %}
 
 {% block beforehead %}
 <script>
@@ -14,7 +14,7 @@
 			methods: {
 				delete_blog: function(blog){
 					if (confirm('Confirm delete "' + user.name + '"? Not recoverable after delete')){
-						postJSON('/api/users/'+ user.id +'/delete', function(err,r){
+						postJSON('/api/comments/'+ user.id +'/delete', function(err,r){
 							if(err){
 								return alert(err.message || err.error || err);
 							}
@@ -47,7 +47,7 @@
 	</div>
 	
 	<div id="vm" class="uk-width-1-1">
-		<a href="/register" class="uk-button uk-button-primary"<i class="uk-icon-plus"></i> New</a>
+		<a href="/manage/blogs/create" class="uk-button uk-button-primary"<i class="uk-icon-plus"></i> New</a>
 		
 		<table class="uk-table uk-table-hover">
 			<thead>

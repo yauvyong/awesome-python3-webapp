@@ -171,7 +171,7 @@ def manage_blogs(*,page='1',request):
 	}
 	
 @get('/manage/users')
-def manage_blogs(*,page='1',request):
+def manage_users(*,page='1',request):
 	return {
 		'__template__': 'manage_user.html',
 		'page_index': get_page_index(page),
@@ -258,6 +258,15 @@ def api_edit_blog(rid,request, *, name, summary, content):
 	blog.content = content.strip()
 	yield from blog.update()
 	return blog	
+
+@post('/api/blogs/{id}/comments')
+@asyncio.coroutine
+def api_add_comments(id, request, *, content):
+	if not content or not content.strip():
+		raise APIValueError('comment', 'comment cannot be empty')
+	comment = Comment(user_id=request.__user__.id, user_name=request.__user__.name, user_image = request.__user__.image, blog_id=id, content=content)
+	yield from comment.save()
+	return comment
 
 @post('/api/blogs/{id}/delete')
 @asyncio.coroutine
