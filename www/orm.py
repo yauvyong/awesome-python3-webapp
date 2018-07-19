@@ -196,7 +196,7 @@ class Model(dict, metaclass=ModelMetaClass):
 	def remove(self):
 		args = self.getValue(self.__primary_key__)
 		rows = yield from execute(self.__delete__, args)
-		if row !=1:
+		if rows !=1:
 			logging.warn('failed to delete record: affected row: %s' % rows)
 	
 	@classmethod
