@@ -264,7 +264,7 @@ def api_edit_blog(rid,request, *, name, summary, content):
 def api_add_comments(id, request, *, content):
 	if not content or not content.strip():
 		raise APIValueError('comment', 'comment cannot be empty')
-	comment = Comment(user_id=request.__user__.id, user_name=request.__user__.name, user_image = request.__user__.image, blog_id=id, content=content)
+	comment = Comment(user_id=request.__user__.id, user_name=request.__user__.name, user_image = request.__user__.image, blog_id=id, content=content.strip())
 	yield from comment.save()
 	return comment
 
