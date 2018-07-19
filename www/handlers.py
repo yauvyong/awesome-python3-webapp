@@ -145,6 +145,16 @@ def api_blogs(*, page='1'):
 		return dict(page=p,blogs=())
 	blogs = yield from Blog.findAll(orderBy='created_at desc', limit=(p.offset,p.limit))
 	return dict(page=p, blogs=blogs)
+
+@get('/api/users')
+def api_users(*, page='1'):
+	page_index = get_page_index(page)
+	num = yield from User.findNumber('count(id)')
+	p = Page(num,page_index)
+	if num == 0:
+		return dict(page=p,users=())
+	users = yield from User.findAll(orderBy='created_at desc', limit=(p.offset,p.limit))
+	return dict(page=p, users=users)
 	
 @get('/api/blogs/{id}')
 def api_get_blog(*,id):
@@ -240,3 +250,17 @@ def api_edit_blog(rid,request, *, name, summary, content):
 	blog.content = content.strip()
 	yield from blog.update()
 	return blog	
+
+@post('/api/blogs/{{ id }}/delete')
+@asyncio.coroutine
+def api_delete_blog(id, request):
+	check_admin(request)
+	blog = yield from Blog.find(rid)
+	yield from blog.delete()
+	
+@post('/api/users/{{ id }}/delete')
+@asyncio.coroutine
+def api_delete_user(id, request):
+	check_admin(request)
+	user = yield from User.find(id)
+	yield from user.delete()
