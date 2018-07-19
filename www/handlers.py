@@ -41,7 +41,11 @@ def user2cookies(user, max_age):
 	s = '%s-%s-%s-%s' % (user.id, user.passwd,expires, _COOKIE_KEY)
 	L = [user.id, expires, hashlib.sha1(s.encode('utf-8')).hexdigest()]
 	return '-'.join(L)
-
+	
+def text2html(text):
+	lines = map(lambda s: '<p>%s</p>' % s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;'), filter(lambda s: s.strip() != '', text.split('\n')))
+	return ''.join(lines)
+	
 @asyncio.coroutine
 def cookie2user(cookie_str):
 	if not cookie_str:
