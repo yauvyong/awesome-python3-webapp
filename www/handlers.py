@@ -257,6 +257,7 @@ def api_delete_blog(id, request):
 	check_admin(request)
 	blog = yield from Blog.find(id)
 	yield from blog.remove()
+	return dict(id=id)
 	
 @post('/api/users/{id}/delete')
 @asyncio.coroutine
@@ -264,3 +265,4 @@ def api_delete_user(id, request):
 	check_admin(request)
 	user = yield from User.find(id)
 	yield from user.remove()
+	return dict(id=id)
