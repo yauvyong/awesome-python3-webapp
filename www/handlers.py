@@ -152,7 +152,6 @@ def api_users(*, page='1'):
 	num = yield from User.findNumber('count(id)')
 	p = Page(num,page_index)
 	if num == 0:
-		print("***********************************************")
 		return dict(page=p,users=())
 	users = yield from User.findAll(orderBy='created_at desc', limit=(p.offset,p.limit))
 	return dict(page=p, users=users)
