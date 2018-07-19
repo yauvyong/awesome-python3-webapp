@@ -255,7 +255,7 @@ def api_edit_blog(rid,request, *, name, summary, content):
 @asyncio.coroutine
 def api_delete_blog(id, request):
 	check_admin(request)
-	blog = yield from Blog.find(rid)
+	blog = yield from Blog.find(id)
 	yield from blog.delete()
 	
 @post('/api/users/{id}/delete')
