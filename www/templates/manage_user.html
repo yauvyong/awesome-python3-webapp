@@ -12,9 +12,6 @@
 				page: data.page
 			},
 			methods: {
-				edit_blog: function(blog){
-					location.assign('/manage/users/edit/'+user.id);
-				},
 				delete_blog: function(blog){
 					if (confirm('Confirm delete "' + user.name + '"? Not recoverable after delete')){
 						postJSON('/api/users/'+ user.id +'/delete', function(err,r){

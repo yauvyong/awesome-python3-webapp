@@ -170,6 +170,14 @@ def manage_blogs(*,page='1',request):
 		'user': request.__user__
 	}
 	
+@get('/manage/users')
+def manage_blogs(*,page='1',request):
+	return {
+		'__template__': 'manage_user.html',
+		'page_index': get_page_index(page),
+		'user': request.__user__
+	}
+	
 @post('/api/users')
 @asyncio.coroutine	
 def api_register_user(*,email,name,passwd):
