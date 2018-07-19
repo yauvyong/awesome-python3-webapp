@@ -59,9 +59,9 @@
 			</thead>
 			<tbody>
 				<tr v-repeat="user: users">
-					<td><a target="_blank" v-attr="href: '/blog/'+blog.id" v-text="user.name"></a></td>
-					<td><a target="_blank" v-attr="href: '/user/'+blog.user_id" v-text="user.email"></a></td>
-					<td><span v-text="blog.created_at.toDateTime()"></span></td>
+					<td><a target="_blank" v-attr="href: '/user/'+user.name" v-text="user.name"></a></td>
+					<td><a target="_blank" v-attr="href: '/user/'+user.email" v-text="user.email"></a></td>
+					<td><span v-text="user.created_at.toDateTime()"></span></td>
 					<td>
 						<a target="#0" v-on="click: delete_user(blog)"><i class="uk-icon-trash-o"></i>
 					</td>
