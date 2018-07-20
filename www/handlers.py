@@ -313,3 +313,10 @@ def api_delete_comment(id, request):
 	comment = yield from Comment.find(id)
 	yield from comment.remove()
 	return dict(id=id)
+	
+@app.error(404)
+def handle404(error):
+    return {
+		'__template__': '404.html',
+		'user': request.__user__
+	}

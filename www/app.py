@@ -71,7 +71,7 @@ def response_factory(app, handler):
 			if r.startswith('redirect:'):
 				return web.HttpFound(r[9:])
 			resp = web.Response(body=e.encode('utf-8'))
-			resp.content_type = 'text/html;cgarset=utf-8'
+			resp.content_type = 'text/html;charset=utf-8'
 			return resp
 		if isinstance(r, dict):
 			template = r.get('__template__')
