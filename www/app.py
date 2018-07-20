@@ -113,6 +113,7 @@ def auth_factory(app,handler):
 		return (yield from handler(request))
 	return auth
 
+@asyncio.coroutine
 def handle404(app, error):
 	path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 	template = Environment(loader=FileSystemLoader(path)).get_template('404.html')
