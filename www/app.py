@@ -85,7 +85,7 @@ def response_factory(app, handler):
 				resp.content_type = 'text/html;charset=utf-8'
 				return resp
 		if isinstance(r, int) and r>=100 and r<=600:
-			return response(r)
+			return response(r,"test")
 		if isinstance(r, tuple) and len(r) ==2:
 			t,m = r
 			if isinstance(t, int) and t>=100 and t<=600:
