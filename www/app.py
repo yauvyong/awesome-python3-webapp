@@ -85,11 +85,11 @@ def response_factory(app, handler):
 				resp.content_type = 'text/html;charset=utf-8'
 				return resp
 		if isinstance(r, int) and r>=100 and r<=600:
-			return response(r,"test")
+			return response(r)
 		if isinstance(r, tuple) and len(r) ==2:
 			t,m = r
 			if isinstance(t, int) and t>=100 and t<=600:
-				return web.Response(t, str(m))
+				return web.Response(t, str(m), "error")
 		#default
 		resp = web.Response(body=str(r).encode('utf-8'))
 		resp.content_type = 'text/plain;charset=utf-8'
