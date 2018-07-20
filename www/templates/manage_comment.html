@@ -12,7 +12,7 @@
 				page: data.page
 			},
 			methods: {
-				delete_blog: function(comment){
+				delete_comment: function(comment){
 					if (confirm('Confirm delete "' + comment.id + '"? Not recoverable after delete')){
 						postJSON('/api/comments/'+ comment.id +'/delete', function(err,r){
 							if(err){
@@ -65,7 +65,7 @@
 					<td><span v-text="user.created_at.toDateTime()"></span></td>
 					<td>
 						<a target="_blank" v-attr="href: '/blog/'+comment.blog_id" ><i class="uk-icon-forward"></i>
-						<a target="#0" v-on="click: delete_comment(blog)"><i class="uk-icon-trash-o"></i>
+						<a target="#0" v-on="click: delete_comment(comment)"><i class="uk-icon-trash-o"></i>
 					</td>
 				</tr>
 			</tbody>

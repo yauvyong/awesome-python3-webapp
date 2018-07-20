@@ -12,7 +12,7 @@
 				page: data.page
 			},
 			methods: {
-				delete_blog: function(user){
+				delete_user: function(user){
 					if (confirm('Confirm delete "' + user.name + '"? Not recoverable after delete')){
 						postJSON('/api/users/'+ user.id +'/delete', function(err,r){
 							if(err){
