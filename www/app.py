@@ -114,7 +114,7 @@ def auth_factory(app,handler):
 	return auth
 
 def handle404(app, error):
-    template = app.get_template('404.html')
+    template = Environment(loader=FileSystemLoader(path),**options).get_template('404.html')
     return template.render()
 
 def datetime_filter(t):
