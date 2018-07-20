@@ -113,12 +113,6 @@ def auth_factory(app,handler):
 		return (yield from handler(request))
 	return auth
 
-@asyncio.coroutine
-def handle404(app, error):
-	path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
-	template = Environment(loader=FileSystemLoader(path)).get_template('404.html')
-	return template.render()
-
 def datetime_filter(t):
 	delta = int(time.time() - t)
 	if delta < 60:
@@ -135,7 +129,7 @@ def datetime_filter(t):
 @asyncio.coroutine
 def init(loop):
 	yield from orm.create_pool(loop=loop, user='www-data',password='www-data', database='awesome')
-	app = web.Application(loop=loop,middlewares=[logger_factory,auth_factory,response_factory, handle404])
+	app = web.Application(loop=loop,middlewares=[logger_factory,auth_factory,response_factory])
 	init_jinja2(app, filters=dict(datetime=datetime_filter))
 	add_routes(app, 'handlers')
 	add_static(app)
