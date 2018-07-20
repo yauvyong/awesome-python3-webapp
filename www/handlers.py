@@ -159,6 +159,16 @@ def api_users(*, page='1'):
 		return dict(page=p,users=())
 	users = yield from User.findAll(orderBy='created_at desc', limit=(p.offset,p.limit))
 	return dict(page=p, users=users)
+
+@get('/api/comments')
+def api_comments(*, page='1'):
+	page_index = get_page_index(page)
+	num = yield from Comment.findNumber('count(id)')
+	p = Page(num,page_index)
+	if num == 0:
+		return dict(page=p,comments=())
+	comments = yield from Comment.findAll(orderBy='created_at desc', limit=(p.offset,p.limit))
+	return dict(page=p, comments=comments)
 	
 @get('/api/blogs/{id}')
 def api_get_blog(*,id):
@@ -178,6 +188,14 @@ def manage_blogs(*,page='1',request):
 def manage_users(*,page='1',request):
 	return {
 		'__template__': 'manage_user.html',
+		'page_index': get_page_index(page),
+		'user': request.__user__
+	}
+	
+@get('/manage/comments')
+def manage_comments(*,page='1',request):
+	return {
+		'__template__': 'manage_comment.html',
 		'page_index': get_page_index(page),
 		'user': request.__user__
 	}
@@ -286,4 +304,12 @@ def api_delete_user(id, request):
 	check_admin(request)
 	user = yield from User.find(id)
 	yield from user.remove()
+	return dict(id=id)
+	
+@post('/api/comments/{id}/delete')
+@asyncio.coroutine
+def api_delete_user(id, request):
+	check_admin(request)
+	comment = yield from Comment.find(id)
+	yield from comment.remove()
 	return dict(id=id)
