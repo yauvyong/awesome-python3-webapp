@@ -61,6 +61,8 @@ def response_factory(app, handler):
 	def response(request):
 		logging.info('Response handler...')
 		r = yield from handler(request)
+		if resp.status == 404:
+			return web.HTTPFound('/error')
 		if isinstance(r, web.StreamResponse):
 			return r
 		if isinstance(r, bytes):
@@ -112,15 +114,6 @@ def auth_factory(app,handler):
 				return web.HTTPFound('/signin')
 		return (yield from handler(request))
 	return auth
-
-@asyncio.coroutine
-def error_factory(app,handler):
-	@asyncio.coroutine
-	def error(request):
-		resp = yield from handler(request)
-		if resp.status == 404:
-			return web.HTTPFound('/error')
-	return error
 	
 def datetime_filter(t):
 	delta = int(time.time() - t)
@@ -138,7 +131,7 @@ def datetime_filter(t):
 @asyncio.coroutine
 def init(loop):
 	yield from orm.create_pool(loop=loop, user='www-data',password='www-data', database='awesome')
-	app = web.Application(loop=loop,middlewares=[logger_factory,auth_factory,error_factory,response_factory])
+	app = web.Application(loop=loop,middlewares=[logger_factory,auth_factory,response_factory])
 	init_jinja2(app, filters=dict(datetime=datetime_filter))
 	add_routes(app, 'handlers')
 	add_static(app)
