@@ -308,7 +308,7 @@ def api_delete_user(id, request):
 	
 @post('/api/comments/{id}/delete')
 @asyncio.coroutine
-def api_delete_user(id, request):
+def api_delete_comment(id, request):
 	check_admin(request)
 	comment = yield from Comment.find(id)
 	yield from comment.remove()
