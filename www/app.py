@@ -113,7 +113,7 @@ def auth_factory(app,handler):
 		return (yield from handler(request))
 	return auth
 
-def handle404(error):
+def handle404(app, error):
     template = env.get_template('404.html')
     return template.render()
 
